@@ -3,7 +3,8 @@ package cd.vodacom.springbootcrud.controller;
 import cd.vodacom.springbootcrud.util.ApiResponse;
 import cd.vodacom.springbootcrud.entity.Person;
 import cd.vodacom.springbootcrud.service.PersonService;
-import org.springframework.http.HttpStatus;
+import cd.vodacom.springbootcrud.util.ResponseUtil;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,29 +25,24 @@ public class PersonController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<Person>>> findAll() {
         List<Person> persons = personService.findAll();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "success", "List of people successfully recovered", persons));
+        return ResponseUtil.ok("List of people successfully recovered", persons);
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Person>> create(@RequestBody Person person) {
+    public ResponseEntity<ApiResponse<Person>> create(@Valid @RequestBody Person person) {
         Person created = personService.create(person);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(HttpStatus.CREATED.value(), "success", "Person Created Successfully!", created));
+        return ResponseUtil.created("Person Created Successfully", created);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Person>> findById(@PathVariable UUID id) {
         return personService.findById(id)
-                .map(p -> ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "success", "", p)))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "error", "Person not found", null)));
+                .map(p -> ResponseUtil.ok("success", p))
+                .orElse(ResponseUtil.notFound("Person not found"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Person>> update(@PathVariable UUID id, @RequestBody Person personData) {
+    public ResponseEntity<ApiResponse<Person>> update(@PathVariable UUID id, @Valid @RequestBody Person personData) {
         Optional<Person> person = personService.findById(id);
 
         if (person.isPresent()) {
@@ -60,12 +56,9 @@ public class PersonController {
             existing.setStatus(personData.getStatus());
 
             Person updated = personService.update(existing);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new ApiResponse<>(HttpStatus.OK.value(), "success", "Person Updated Successfully!", updated));
+            return ResponseUtil.ok("Person Updated Successfully!", updated);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "error", "Person not found", null));
+        return ResponseUtil.notFound("Person not found");
     }
 
     @DeleteMapping("/{id}")
@@ -73,12 +66,9 @@ public class PersonController {
         Optional<Person> person = personService.findById(id);
         if (person.isPresent()) {
             personService.delete(id);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new ApiResponse<>(HttpStatus.OK.value(), "success", "Person Deleted Successfully!", null));
+            return ResponseUtil.ok("Person Deleted Successfully!", null);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "error", "Person not found", null));
+        return ResponseUtil.notFound("Person not found");
     }
 
 }
