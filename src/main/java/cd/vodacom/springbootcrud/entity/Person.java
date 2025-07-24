@@ -1,4 +1,4 @@
-package cd.vodacom.springbootcrud;
+package cd.vodacom.springbootcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
