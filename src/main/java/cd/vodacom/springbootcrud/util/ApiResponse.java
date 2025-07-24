@@ -1,4 +1,4 @@
-package cd.vodacom.springbootcrud;
+package cd.vodacom.springbootcrud.util;
 
 import lombok.Getter;
 import lombok.Setter;
