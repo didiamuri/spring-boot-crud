@@ -116,7 +116,7 @@ POST /api/v1/persons
 ```
 
 ## 🧑‍💻 Auteur
-This template was created by [Didierson Amuri/Anywr Africa](https://github.com/didiamuri).
+This template was created by [Didierson Amuri](https://github.com/didiamuri).
 
 ## 📜 Licence
 ## Licence
