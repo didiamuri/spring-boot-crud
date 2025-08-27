@@ -15,4 +15,16 @@ public class ResponseUtil {
     public static <T> ResponseEntity<ApiResponse<T>> notFound(String message) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(404, "error", message, null));
     }
+
+    public static <T> ResponseEntity<ApiResponse<T>> conflict(String message) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(409, "error", message, null));
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> badRequest(String message) {
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(400, "error", message, null));
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> unauthorized(String message) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(401, "error", message, null));
+    }
 }
