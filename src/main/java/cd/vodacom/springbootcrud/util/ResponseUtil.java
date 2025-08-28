@@ -27,4 +27,8 @@ public class ResponseUtil {
     public static <T> ResponseEntity<ApiResponse<T>> unauthorized(String message) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(401, "error", message, null));
     }
+
+    public static <T> ResponseEntity<ApiResponse<T>> internalError(String message) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(500, "error", message, null));
+    }
 }
