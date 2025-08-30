@@ -3,7 +3,6 @@ package cd.vodacom.springbootcrud.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -48,11 +49,15 @@ public class User {
     private String status = "active";
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
     Date created_at;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     Date updated_at;
+
+    @OneToMany(mappedBy = "author")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 }
